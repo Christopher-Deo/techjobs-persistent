@@ -1,31 +1,49 @@
 package org.launchcode.techjobs.persistent.models;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
-public class Job {
-    @Id
-    @GeneratedValue
-    private int id;
-
-    private String name;
+public class Job extends AbstractEntity {
 
     @ManyToOne
-    @JoinColumn(name = "employer_id")
+    @NotNull(message = "Employer cannot be null")
     private Employer employer;
 
-    @ManyToOne
-    @JoinColumn(name = "skill_id")
-    private Skill skill;
+    @ManyToMany
+    @JoinTable(
+            name = "job_skill",
+            joinColumns = @JoinColumn(name = "job_id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id")
+    )
+    private List<Skill> skills;
 
     public Job() {
     }
 
-    public Job(String name, Employer employer, Skill skill) {
-        this.name = name;
+    public Job(Employer employer, List<Skill> skills) {
         this.employer = employer;
-        this.skill = skill;
+        this.skills = skills;
     }
 
-    // Getters and setters for name, employer, and skill
+    public Employer getEmployer() {
+        return employer;
+    }
+
+    public void setEmployer(Employer employer) {
+        this.employer = employer;
+    }
+
+    public List<Skill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<Skill> skills) {
+        this.skills = skills;
+    }
 }

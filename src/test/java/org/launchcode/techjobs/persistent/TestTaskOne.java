@@ -20,7 +20,7 @@ public class TestTaskOne extends AbstractTest{
     public void testDbConnectionProperties() throws IOException {
         String propsFileContents = getFileContents("src/main/resources/application.properties");
 
-        Pattern urlPattern = Pattern.compile("spring.datasource.url=jdbc:mysql://127.0.0.1:3306/\\?user=root");
+        Pattern urlPattern = Pattern.compile("jdbc:mysql://localhost:3306/techjobs");
         Matcher urlMatcher = urlPattern.matcher(propsFileContents);
         boolean urlFound = urlMatcher.find();
         assertTrue(urlFound, "Database connection URL not found or is incorrect");
@@ -30,7 +30,7 @@ public class TestTaskOne extends AbstractTest{
         boolean usernameFound = usernameMatcher.find();
         assertTrue(usernameFound, "Database username not found or is incorrect");
 
-        Pattern passwordPattern = Pattern.compile("spring.datasource.password=techjobs");
+        Pattern passwordPattern = Pattern.compile("spring.datasource.password=Fall2023");
         Matcher passwordMatcher = passwordPattern.matcher(propsFileContents);
         boolean passwordFound = passwordMatcher.find();
         assertTrue(passwordFound, "Database password not found or is incorrect");

@@ -16,11 +16,11 @@ import java.util.Optional;
 public class SkillController {
 
     @Autowired
-    private SkillRepository skillRepository; // Add the SkillRepository field
+    private SkillRepository skillRepository;
 
-    @GetMapping
+    @RequestMapping("/")
     public String index(Model model) {
-        model.addAttribute("skills", skillRepository.findAll()); // Use findAll to get all skills
+        model.addAttribute("skills", skillRepository.findAll());
         return "skills/index";
     }
 
@@ -38,14 +38,14 @@ public class SkillController {
             return "skills/add";
         }
 
-        skillRepository.save(newSkill); // Save the valid skill object
+        skillRepository.save(newSkill);
         return "redirect:";
     }
 
     @GetMapping("view/{skillId}")
     public String displayViewSkill(Model model, @PathVariable int skillId) {
 
-        Optional<Skill> optSkill = skillRepository.findById(skillId); // Find skill by ID
+        Optional<Skill> optSkill = skillRepository.findById(skillId);
 
         if (optSkill.isPresent()) {
             Skill skill = optSkill.get();

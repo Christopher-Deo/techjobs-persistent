@@ -18,19 +18,19 @@ public class EmployerController {
     @Autowired
     private EmployerRepository employerRepository; // Add the EmployerRepository field
 
-    @GetMapping
+    @GetMapping( value="/")
     public String index(Model model) {
         model.addAttribute("employers", employerRepository.findAll()); // Use findAll to get all employers
         return "employers/index";
     }
 
-    @GetMapping("add")
+    @GetMapping(value="add")
     public String displayAddEmployerForm(Model model) {
         model.addAttribute(new Employer());
         return "employers/add";
     }
 
-    @PostMapping("add")
+    @PostMapping(value="add")
     public String processAddEmployerForm(@ModelAttribute @Valid Employer newEmployer,
                                          Errors errors, Model model) {
 
@@ -39,10 +39,10 @@ public class EmployerController {
         }
 
         employerRepository.save(newEmployer); // Save the valid employer object
-        return "redirect:";
+        return "redirect:../../";
     }
 
-    @GetMapping("view/{employerId}")
+    @GetMapping(value="view/{employerId}")
     public String displayViewEmployer(Model model, @PathVariable int employerId) {
 
         Optional<Employer> optEmployer = employerRepository.findById(employerId); // Find employer by ID

@@ -3,7 +3,7 @@ package org.launchcode.techjobs.persistent.models;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import java.util.Objects;
 
@@ -13,7 +13,7 @@ public abstract class AbstractEntity {
     @GeneratedValue
     private int id;
 
-    @NotNull(message = "Name cannot be blank")
+    @NotBlank(message = "Name cannot be blank")
     @Size(max = 100, message = "Name is too long (maximum 100 characters)")
     private String name;
 

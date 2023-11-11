@@ -31,8 +31,6 @@ public class Employer extends AbstractEntity {
         return jobs;
     }
 
-    // Other existing methods and properties...
-
     @Override
     public String toString() {
         return location; // Adjust as needed for your application

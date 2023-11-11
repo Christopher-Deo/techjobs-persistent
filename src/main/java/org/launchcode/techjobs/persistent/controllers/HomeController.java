@@ -12,8 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class HomeController {
@@ -46,7 +46,7 @@ public class HomeController {
     @PostMapping("add")
     public String processAddJobForm(@ModelAttribute @Valid Job newJob,
                                     Errors errors, Model model, @RequestParam int employerId,
-                                    @RequestParam(required = false) List<Integer> skills) {
+                                    @RequestParam List<Integer> skills) {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Job");
@@ -59,11 +59,11 @@ public class HomeController {
         newJob.setEmployer(employerRepository.findById(employerId).orElse(null));
 
         // Fetch skills from the repository using skillRepository
-        Iterable<Skill> selectedSkillsIterable = skillRepository.findAllById(skills);
+//        Iterable<Skill> selectedSkillsIterable = skillRepository.findAllById(skills);
 
         // Convert the iterable to a list
-        List<Skill> selectedSkills = new ArrayList<>();
-        selectedSkillsIterable.forEach(selectedSkills::add);
+        List<Skill> selectedSkills = (List<Skill>)skillRepository.findAllById(skills);
+//        selectedSkillsIterable.forEach(selectedSkills::add);
 
         // Set the skills for the new job
         newJob.setSkills(selectedSkills);
@@ -76,7 +76,15 @@ public class HomeController {
 
     @GetMapping("view/{jobId}")
     public String displayViewJob(Model model, @PathVariable int jobId) {
-        // Add logic for viewing a job
-        return "view";
+        Optional<Job> optJob = jobRepository.findById(jobId); // Find employer by ID
+
+        if (optJob.isPresent()) {
+            Job job = optJob.get();
+            model.addAttribute("job", job);
+            return "view";
+        } else {
+            return "redirect:/";
+        }
+
     }
 }
